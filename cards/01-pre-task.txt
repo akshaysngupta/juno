@@ -1,0 +1,39 @@
+Here is the list of actions and their descriptions:
+action: list-files
+description: This command lists the files.
+
+action: read-file
+description: This command reads file. You can find list of files using "list-files"
+
+action: write-file
+description: This command writes to file.
+
+action: delete-file
+description: This command deletes to file.
+
+action: quit
+description: This command will indicate that you have finished.
+
+You can execute the task using json schema as follows:
+<action-start>
+{
+    "action": "read-file"
+    "args": [
+        "file-name"
+    ]
+}
+<action-end>
+
+<action-start>
+{
+    "action": "write-file"
+    "args": [
+        "file-name",
+        "file-content"
+    ]
+}
+<action-end>
+
+Action should start with <action-start> and end with <action-end> so that it can be parsed.
+
+##### Task Start #####
