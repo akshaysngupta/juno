@@ -79,7 +79,7 @@ var doCmd = &cobra.Command{
 		// Print the command
 		fmt.Println("Command:", command)
 
-		executeTask(client, systemCard, preTaskCard+"\n"+command+"\n"+postTaskCard)
+		executeTask(client, systemCard, populateActions(preTaskCard)+"\n"+command+"\n"+postTaskCard)
 	},
 }
 
@@ -93,7 +93,6 @@ func main() {
 	// Add the sub commands to the root command
 	rootCmd.AddCommand(cloneCmd)
 	rootCmd.AddCommand(doCmd)
-	rootCmd.Run = doCmd.Run
 
 	// Execute the root command
 	rootCmd.Execute()

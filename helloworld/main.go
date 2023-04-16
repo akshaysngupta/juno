@@ -16,6 +16,10 @@ func main() {
 		http.ServeFile(w, r, "about.html")
 	})
 
+	http.HandleFunc("/contacts", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "contact.html")
+	})
+
 	fmt.Println("Server started at localhost:80")
 	http.ListenAndServe(":80", nil)
 }
