@@ -6,19 +6,19 @@ import (
 	"strings"
 )
 
-func populateActions(preTaskCard string) string {
-	var actionCards string
-	for _, action := range actionSet {
-		actionBytes, _ := json.MarshalIndent(action, "", "    ")
-		actionCard := fmt.Sprintf(
-			"Action: %s\n"+
+func populateSkills(preTaskCard string) string {
+	var skillCards string
+	for _, skill := range skillSet {
+		skillBytes, _ := json.MarshalIndent(skill, "", "    ")
+		skillCard := fmt.Sprintf(
+			"Skill: %s\n"+
 				"Description: %s\n"+
 				"Example:\n%s\n\n",
-			action.Action,
-			action.Description,
-			string(actionBytes))
-		actionCards += actionCard
+			skill.Skill,
+			skill.Description,
+			string(skillBytes))
+		skillCards += skillCard
 	}
 
-	return strings.Replace(preTaskCard, "${ACTIONS}", actionCards, 1)
+	return strings.Replace(preTaskCard, "${SKILLS}", skillCards, 1)
 }

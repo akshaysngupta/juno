@@ -14,13 +14,13 @@ const (
 )
 
 func executeTask(client *openai.Client, systemCard string, initTaskCard string) {
-	action := initAction()
-	output, _ := performAction(action)
-	initTaskCard = initTaskCard + formatActionOutput(action, output)
+	skill := initSkill()
+	output, _ := performSkill(skill)
+	initTaskCard = initTaskCard + formatSkillOutput(skill, output)
 
 	reset := true
 	var updatedTaskCard string
-	var request []openai.ChatCompletionMessage
+	var messages []openai.ChatCompletionMessage
 	for {
 		if reset {
 			updatedTaskCard = initTaskCard
@@ -28,13 +28,13 @@ func executeTask(client *openai.Client, systemCard string, initTaskCard string) 
 			reset = false
 		}
 
-		request = createRequest(updatedTaskCard)
-		fmt.Println("Sending Juno Request:\n", messagesToFormattedjson(request))
+		messages = createMessages(updatedTaskCard)
+		fmt.Println("Sending Juno Request:\n", messagesToFormattedjson(messages))
 		resp, err := client.CreateChatCompletion(
 			context.Background(),
 			openai.ChatCompletionRequest{
 				Model:       openai.GPT3Dot5Turbo,
-				Messages:    request,
+				Messages:    messages,
 				Temperature: 0.9,
 			},
 		)
@@ -45,7 +45,7 @@ func executeTask(client *openai.Client, systemCard string, initTaskCard string) 
 		response := resp.Choices[0].Message.Content
 		fmt.Println("Juno Response:\n", response)
 
-		action, err = parseAction(response)
+		skill, err = parseSkill(response)
 		if err != nil {
 			fmt.Println("Resetting due to error", err)
 			reset = true
@@ -53,7 +53,7 @@ func executeTask(client *openai.Client, systemCard string, initTaskCard string) 
 			continue
 		}
 
-		output, err := performAction(action)
+		output, err := performSkill(skill)
 		if err != nil {
 			fmt.Println("Resetting due to error", err)
 			reset = true
@@ -66,7 +66,7 @@ func executeTask(client *openai.Client, systemCard string, initTaskCard string) 
 			return
 		}
 
-		updatedTaskCard = updatedTaskCard + formatActionOutput(action, output)
+		updatedTaskCard = updatedTaskCard + formatSkillOutput(skill, output)
 		writeFile("request.txt", updatedTaskCard)
 	}
 }
@@ -76,7 +76,7 @@ func messagesToFormattedjson(messages []openai.ChatCompletionMessage) string {
 	return string(marshaled)
 }
 
-func createRequest(task string) []openai.ChatCompletionMessage {
+func createMessages(task string) []openai.ChatCompletionMessage {
 	return []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleSystem,

@@ -3,38 +3,38 @@ package main
 import "encoding/json"
 
 var (
-	actionStartTag = "<action-start>"
+	skillStartTag = "<skill-start>"
 
-	actionEndTag = "<action-end>"
+	skillEndTag = "<skill-end>"
 
 	resultStartTag = "<result-start>"
 
 	resultEndTag = "<result-end>"
 
-	formatterResult = "%s\n" + actionEndTag + "\n" +
+	formatterResult = "%s\n" + skillEndTag + "\n" +
 		resultStartTag + "\n%s\n" + resultEndTag + "\n" +
-		actionStartTag + "\n"
+		skillStartTag + "\n"
 )
 
-type actionInput struct {
-	Action string `json:"action"`
+type skillInput struct {
+	Skill string `json:"skill"`
 
 	Description string `json:"description,omitempty"`
 
 	Args []string `json:"args,omitempty"`
 
-	Run func(args []string) (*actionOutput, error)
+	Run func(args []string) (*skillOutput, error)
 }
 
-func (action *actionInput) RunAction() (*actionOutput, error) {
-	return action.Run(action.Args)
+func (skill *skillInput) RunSkill() (*skillOutput, error) {
+	return skill.Run(skill.Args)
 }
 
-// Marshal returns the JSON encoding of the actionInput
-func (a *actionInput) MarshalJSON() ([]byte, error) {
-	// create a map to store the fields of the actionInput
+// Marshal returns the JSON encoding of the skillInput
+func (a *skillInput) MarshalJSON() ([]byte, error) {
+	// create a map to store the fields of the skillInput
 	m := make(map[string]interface{})
-	m["action"] = a.Action
+	m["skill"] = a.Skill
 	if a.Description != "" {
 		m["description"] = a.Description
 	}
@@ -45,6 +45,6 @@ func (a *actionInput) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m)
 }
 
-type actionOutput struct {
+type skillOutput struct {
 	Output string `json:"output"`
 }

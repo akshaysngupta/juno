@@ -1,6 +1,6 @@
-Here is the list of actions and their descriptions:
-${ACTIONS}
+Here is the list of skills and their descriptions:
+${SKILLS}
 
-Action should start with <action-start> and end with <action-end> so that it can be parsed.
+Skill should start with <skill-start> and end with <skill-end> so that it can be parsed.
 
 <task-start>

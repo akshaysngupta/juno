@@ -1,4 +1,4 @@
 <task-end>
 
-Here are the actions that will complete the task in order:
-<action-start>
+Here are the skills that will complete the task in order:
+<skill-start>

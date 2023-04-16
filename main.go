@@ -69,17 +69,17 @@ var cloneCmd = &cobra.Command{
 // Define a do command
 // Define a do command
 var doCmd = &cobra.Command{
-	Use:   "do [command]",
-	Short: "Print the command",
+	Use:   "do [task]",
+	Short: "Ask Juno to perform a task",
 	Args:  cobra.ExactArgs(1), // Require exactly one argument
 	Run: func(cmd *cobra.Command, args []string) {
-		// Get the command from the argument
-		command := args[0]
+		// Get the task from the argument
+		task := args[0]
 
 		// Print the command
-		fmt.Println("Command:", command)
+		fmt.Println("Task:", task)
 
-		executeTask(client, systemCard, populateActions(preTaskCard)+"\n"+command+"\n"+postTaskCard)
+		executeTask(client, systemCard, populateSkills(preTaskCard)+"\n"+task+"\n"+postTaskCard)
 	},
 }
 

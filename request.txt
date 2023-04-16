@@ -1,124 +1,99 @@
-Here is the list of actions and their descriptions:
-Action: write-file
-Description: This action writes to a file.
+Here is the list of skills and their descriptions:
+Skill: read-file
+Description: This skill allows you to read a file.
 Example:
 {
-    "action": "write-file",
+    "args": [
+        "file-name"
+    ],
+    "description": "This skill allows you to read a file.",
+    "skill": "read-file"
+}
+
+Skill: write-file
+Description: This skill writes to a file.
+Example:
+{
     "args": [
         "file-name",
         "file-content"
     ],
-    "description": "This action writes to a file."
+    "description": "This skill writes to a file.",
+    "skill": "write-file"
 }
 
-Action: delete-file
-Description: This action deletes a file.
+Skill: delete-file
+Description: This skill deletes a file.
 Example:
 {
-    "action": "delete-file",
     "args": [
         "file-name"
     ],
-    "description": "This action deletes a file."
+    "description": "This skill deletes a file.",
+    "skill": "delete-file"
 }
 
-Action: list-files
-Description: This action lists the files.
+Skill: list-files
+Description: This skill lists the files.
 Example:
 {
-    "action": "list-files",
-    "description": "This action lists the files."
+    "description": "This skill lists the files.",
+    "skill": "list-files"
 }
 
-Action: done
-Description: This action indicates that work is finished.
+Skill: done
+Description: This skill indicates that work is finished.
 Example:
 {
-    "action": "done",
-    "description": "This action indicates that work is finished."
-}
-
-Action: read-file
-Description: This action read a file.
-Example:
-{
-    "action": "read-file",
-    "args": [
-        "file-name"
-    ],
-    "description": "This action read a file."
+    "description": "This skill indicates that work is finished.",
+    "skill": "done"
 }
 
 
 
-Action should start with <action-start> and end with <action-end> so that it can be parsed.
+Skill should start with <skill-start> and end with <skill-end> so that it can be parsed.
 
 <task-start>
-create a README.md file that summarizes each file
+create a github actions yaml to upload the content of the website to an S3 bucket
 <task-end>
 
-Here are the actions that will complete the task in order:
-<action-start>
+Here are the skills that will complete the task in order:
+<skill-start>
 {
-    "action": "list-files"
+    "skill": "list-files"
 }
-<action-end>
+<skill-end>
 <result-start>
 {
-    "output": "Makefile, README.md, about.html, contact.html, index.html, main.go"
+    "output": "Makefile, README.md, about.html, contact.html, deploy.sh, index.html, main.go"
 }
 <result-end>
-<action-start>
+<skill-start>
 {
-    "action": "read-file",
     "args": [
-        "about.html"
-    ]
+        "deploy.sh"
+    ],
+    "skill": "read-file"
 }
-<action-end>
+<skill-end>
 <result-start>
 {
-    "output": "\u003chtml\u003e\n\u003chead\u003e\n\u003ctitle\u003eAbout Me\u003c/title\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003ch1\u003eAbout Me\u003c/h1\u003e\n\u003c/body\u003e\n\u003c/html\u003e"
+    "output": "#!/bin/bash\n\naz group create -n myResourceGroup -l eastus\n\naz vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --admin-username azureuser --generate-ssh-keys"
 }
 <result-end>
-<action-start>
+<skill-start>
 {
-    "action": "read-file",
     "args": [
-        "contact.html"
-    ]
+        "s3-bucket-name",
+        "deploy.sh",
+        "#!/bin/bash\n\naz group create -n myResourceGroup -l eastus\n\naz vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --admin-username azureuser --generate-ssh-keys"
+    ],
+    "skill": "write-file"
 }
-<action-end>
-<result-start>
-{
-    "output": "\u003chtml\u003e\n\u003chead\u003e\n\u003ctitle\u003eContact Me\u003c/title\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003ch1\u003eContact Me\u003c/h1\u003e\n\u003cp\u003eEmail me at juno@email.com\u003c/p\u003e\n\u003c/body\u003e\n\u003c/html\u003e"
-}
-<result-end>
-<action-start>
-{
-    "action": "read-file",
-    "args": [
-        "README.md"
-    ]
-}
-<action-end>
-<result-start>
-{
-    "output": "This folder contains the following files:\n- Makefile\n- README.md\n- about.html\n- contact.html\n- index.html\n- main.go\n"
-}
-<result-end>
-<action-start>
-{
-    "action": "write-file",
-    "args": [
-        "README.md",
-        "This folder contains the following files:\n- Makefile\n- README.md\n- about.html\n- contact.html\n- index.html\n- main.go\n\n## File Summaries\n\n### about.html\nThis file contains information about me.\n\n### contact.html\nThis file contains my contact information.\n\n### index.html\nThis file is the homepage.\n\n### main.go\nThis file contains the main Go code.\n"
-    ]
-}
-<action-end>
+<skill-end>
 <result-start>
 {
     "output": "File written successfully."
 }
 <result-end>
-<action-start>
+<skill-start>
